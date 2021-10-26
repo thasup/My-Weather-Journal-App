@@ -1,14 +1,17 @@
 // Defined Global Variables
 const zipcode = document.querySelector('#zip');
+const country = document.querySelector('#country');
 const feeling = document.querySelector('#feeling');
 const summitBtn = document.querySelector('#generate');
-const errorMsg = document.querySelector('#error-msg');
+const errorMsg1 = document.querySelector('#error-msg1');
+const errorMsg2 = document.querySelector('#error-msg2');
 
 const city = document.querySelector('#main-place');
 const date = document.querySelector('#main-date');
 const icon = document.querySelector('#main-icon');
 const temperature = document.querySelector('#main-temp');
 const condition = document.querySelector('#main-condition');
+const youFeel = document.querySelector('#you-feel');
 
 const feelLike = document.querySelector('#feel-like');
 const windSpeed = document.querySelector('#wind-speed');
@@ -25,15 +28,10 @@ summitBtn.addEventListener('click', runProcess);
 function runProcess (evt) {
     evt.preventDefault();
 
-    // API Key
-    const baseURL = 'https://api.openweathermap.org/data/2.5/weather?zip=';
-    const apiKey = '&appid=0157a18e1dec25c35696d5b92e0836d9';
-    const units = '&units=metric';
-
-    const urlAPI = baseURL + zipcode.value + apiKey + units;
+    getURL();
 
     // API request for wreather data from openweathermap.org
-    getWeatherData(urlAPI)
+    getWeatherData(getURL())
 
     // POST data to empty JS object
     .then((data) => {
@@ -57,6 +55,27 @@ function runProcess (evt) {
     .then(() => {
         updateUI();
     })
+};
+
+// Combine URL components
+const getURL = () => {
+    const baseURL = 'https://api.openweathermap.org/data/2.5/weather?zip=';
+    const apiKey = '&appid=0157a18e1dec25c35696d5b92e0836d9';
+    const units = '&units=metric';
+
+    if (country.value === '') {
+        errorMsg2.innerHTML = ``;
+        let urlAPI = baseURL + zipcode.value + apiKey + units;
+        return urlAPI;
+    } else if (country.value.length > 2) {
+        errorMsg2.innerHTML = `Country Code is Invalid.`;
+        let urlAPI = baseURL + zipcode.value + `,` + country.value + apiKey + units;
+        return urlAPI;
+    } else {
+        errorMsg2.innerHTML = ``;
+        let urlAPI = baseURL + zipcode.value + `,` + country.value + apiKey + units;
+        return urlAPI;
+    }
 };
 
 // Create a new date instance dynamically with JS
@@ -84,11 +103,13 @@ const getWeatherData = async (urlAPI) => {
     try {
         const weatherData = await response.json();
         if (weatherData.cod === '404') {
-            errorMsg.innerHTML = 'ZIP code is invalid.';
+            errorMsg1.innerHTML = 'ZIP Code is Invalid.';
+        } else if (weatherData.cod === '404' && country.value !== '') {
+            errorMsg1.innerHTML = '';
         } else if (zipcode.value === '') {
-            errorMsg.innerHTML = 'please enter ZIP code.';
+            errorMsg1.innerHTML = 'Please Enter ZIP Code.';
         } else {
-            errorMsg.innerHTML = '';
+            errorMsg1.innerHTML = '';
             return weatherData;
         }
     } catch(error) {
@@ -127,6 +148,7 @@ const updateUI = async () => {
         icon.innerHTML = `<img src="${iconPath}${data.icon}@4x.png" alt=""/>`;
         temperature.innerHTML = `<p>${data.temp} °C</p>`;
         condition.innerHTML = `<p>${data.condition}</p>`;
+        youFeel.innerHTML = `<p>I'm feeling ${data.feeling}!</p>`;
 
         feelLike.innerHTML = `<p>Feels Like   ${data.feelLike} °C</p>`;
         windSpeed.innerHTML = `<p>Wind Speed   ${data.windSpeed} m/s</p>`;

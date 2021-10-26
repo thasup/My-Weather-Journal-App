@@ -14,11 +14,16 @@
             <div class="zipcode-panel">
                 <label for="zip">Enter Your Zip Code</label> 
                 <input type="text" name="zip" required id="zip" placeholder="Enter your zip code here">
-                <p id="error-msg"></p>
+                <p id="error-msg1"></p>
+            </div>
+            <div class="country-panel">
+                <label for="country">Enter Your Country Code</label> 
+                <input type="text" name="country" required id="country" placeholder="Enter your country code here">
+                <p id="error-msg2"></p>
             </div>
             <div class="feeling-panel">
-                <label for="feelings">Enter how you’re feeling:</label>        
-                <textarea type="text" name="feeling" id="feeling" placeholder="How are you feeling today?" maxlength="30"></textarea>
+                <label for="feelings">How are you feeling today?</label>        
+                <input type="text" name="feeling" id="feeling" placeholder="How are you feeling today?" rows="3" cols="50">
             </div>
             <button id="generate" type="submit"> Submit </button>
         </form>
@@ -30,6 +35,7 @@
             <div id="main-icon"></div>
             <div id="main-temp"></div>
             <div id="main-condition"></div>
+            <div id="you-feel"></div>
         </div>
 
         <div class="main-detail">
