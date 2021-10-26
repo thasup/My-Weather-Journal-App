@@ -17,18 +17,19 @@ app.use(express.json());
 app.use(express.static('website'));
 
 // Defines the port number 
-const port = 3000;
+const port = 8000;
 
 /* Spin up the server*/
 const server = app.listen(port, listening);
 
-listening = () => {
+function listening () {
     console.log(`Server is running!`);
     console.log(`Running on localhost: ${port}`);
 };
 
 /* Empty JS object to act as endpoint for all routes */
 let projectData = {};
+
 
 // GET Route
 app.get('/retrieve', (request, response) => {
@@ -43,7 +44,15 @@ app.post('/add', (request, response) => {
         date: request.body.date,
         city: request.body.city,
         temp: request.body.temp,
-        feeling: request.body.feeling
+        feeling: request.body.feeling,
+        condition: request.body.condition,
+        feelLike: request.body.feelLike,
+        windSpeed: request.body.windSpeed,
+        humidity: request.body.humidity,
+        pressure: request.body.pressure,
+        visibility: request.body.visibility,
+        sunrise: request.body.sunrise,
+        sunset: request.body.sunset
     };
     projectData.push(newEntry);
     response.send(projectData);
