@@ -112,7 +112,6 @@ const postData = async ( url = '', data = {}) => {
         //console.log(newData);
         return newData
     } catch(error) {
-        // appropriately handle the error
         console.log("error", error);
     }
 };
@@ -126,16 +125,15 @@ const updateUI = async () => {
         city.innerHTML = `<p>${data.city}</p>`;
         date.innerHTML = `<p>${data.date}</p>`;
         icon.innerHTML = `<img src="${iconPath}${data.icon}@4x.png" alt=""/>`;
-        temperature.innerHTML = `<p>${data.temp}°C</p>`;
+        temperature.innerHTML = `<p>${data.temp} °C</p>`;
         condition.innerHTML = `<p>${data.condition}</p>`;
 
-        feelLike.innerHTML = `<p>${data.feelLike} °C</p>`;
-        windSpeed.innerHTML = `<p>${data.windSpeed} m/s</p>`;
-        humidity.innerHTML = `<p>${data.humidity} %</p>`;
-        pressure.innerHTML = `<p>${data.pressure} hPa</p>`;
-        visibility.innerHTML = `<p>${data.visibility} km</p>`
+        feelLike.innerHTML = `<p>Feels Like   ${data.feelLike} °C</p>`;
+        windSpeed.innerHTML = `<p>Wind Speed   ${data.windSpeed} m/s</p>`;
+        humidity.innerHTML = `<p>Humidity   ${data.humidity} %</p>`;
+        pressure.innerHTML = `<p>Pressure   ${data.pressure} hPa</p>`;
+        visibility.innerHTML = `<p>Visibility   ${data.visibility} km</p>`
     } catch(error) {
-        // appropriately handle the error
         console.log("error", error);
     }
 };
