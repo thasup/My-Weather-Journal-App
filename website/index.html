@@ -13,14 +13,14 @@
         <form class="form" action="">
             <div class="zipcode-panel">
                 <label for="zip">Enter Your Zip Code</label> 
-                <input type="text" name="zip" required id="zip" placeholder="Enter your ZIP code here">
+                <input type="text" name="zip" required id="zip" placeholder="Enter your zip code here">
                 <p id="error-msg"></p>
             </div>
             <div class="feeling-panel">
                 <label for="feelings">Enter how you’re feeling:</label>        
-                <input type="text" name="feeling" id="feeling" placeholder="How are you feeling today?" maxlength="50">
+                <textarea type="text" name="feeling" id="feeling" placeholder="How are you feeling today?" maxlength="30"></textarea>
             </div>
-            <input id="generate" type="submit" value="Submit">
+            <button id="generate" type="submit"> Submit </button>
         </form>
     </head>
     <main class="forecast">
@@ -38,8 +38,6 @@
             <div id="humidity"></div>
             <div id="pressure"></div>
             <div id="visibility"></div>
-            <div id="sunrise"></div>
-            <div id="sunset"></div>
         </div>
 
         <div class="sub-forecast">

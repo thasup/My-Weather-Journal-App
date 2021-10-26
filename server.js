@@ -43,6 +43,7 @@ app.post('/add', (request, response) => {
     const newEntry = {
         date: request.body.date,
         city: request.body.city,
+        icon: request.body.icon,
         temp: request.body.temp,
         feeling: request.body.feeling,
         condition: request.body.condition,
@@ -50,11 +51,8 @@ app.post('/add', (request, response) => {
         windSpeed: request.body.windSpeed,
         humidity: request.body.humidity,
         pressure: request.body.pressure,
-        visibility: request.body.visibility,
-        sunrise: request.body.sunrise,
-        sunset: request.body.sunset
+        visibility: request.body.visibility
     };
-    projectData.push(newEntry);
-    response.send(projectData);
+    projectData = newEntry;
     console.log(projectData);
 });
