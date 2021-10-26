@@ -6,25 +6,23 @@ const app = express();
 
 /* Dependencies */
 const bodyParser = require('body-parser')
-
-/* Middleware */
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-// Cors for cross origin allowance
 const cors = require('cors');
 app.use(cors());
+
+/* Middleware */
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 /* Initialize the main project folder*/
 app.use(express.static('website'));
 
 // Defines the port number 
-const port = 8000;
+const port = 3000;
 
 /* Spin up the server*/
 const server = app.listen(port, listening);
 
-function listening(){
+listening = () => {
     console.log(`Server is running!`);
     console.log(`Running on localhost: ${port}`);
 };
@@ -32,8 +30,22 @@ function listening(){
 /* Empty JS object to act as endpoint for all routes */
 let projectData = {};
 
-// Return Endpoint Data, GET Route I: Server Side
-
-// Return Endpoint Data, GET Route II: Client Side
+// GET Route
+app.get('/retrieve', (request, response) => {
+    response.send(projectData);
+    console.log(projectData);
+});
 
 // POST Route
+app.post('/add', (request, response) => {
+    response.send('POST received');
+    const newEntry = {
+        date: request.body.date,
+        city: request.body.city,
+        temp: request.body.temp,
+        feeling: request.body.feeling
+    };
+    projectData.push(newEntry);
+    response.send(projectData);
+    console.log(projectData);
+});
