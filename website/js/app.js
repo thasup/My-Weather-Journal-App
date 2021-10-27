@@ -64,15 +64,15 @@ const getURL = () => {
     const units = '&units=metric';
 
     if (country.value === '') {
-        errorMsg2.innerHTML = ``;
+        errorMsg2.style.display = "none";
         let urlAPI = baseURL + zipcode.value + apiKey + units;
         return urlAPI;
-    } else if (country.value.length > 2) {
-        errorMsg2.innerHTML = `Country Code is Invalid.`;
+    } else if (country.value.length !== 2) {
+        errorMsg2.style.display = "block";
         let urlAPI = baseURL + zipcode.value + `,` + country.value + apiKey + units;
         return urlAPI;
     } else {
-        errorMsg2.innerHTML = ``;
+        errorMsg2.style.display = "none";
         let urlAPI = baseURL + zipcode.value + `,` + country.value + apiKey + units;
         return urlAPI;
     }
@@ -102,14 +102,14 @@ const getWeatherData = async (urlAPI) => {
 
     try {
         const weatherData = await response.json();
-        if (weatherData.cod === '404') {
-            errorMsg1.innerHTML = 'ZIP Code is Invalid.';
+        if (weatherData.cod === '404' || weatherData.cod === '400') {
+            errorMsg1.style.display = "block";
         } else if (weatherData.cod === '404' && country.value !== '') {
-            errorMsg1.innerHTML = '';
+            errorMsg1.style.display = "none";
         } else if (zipcode.value === '') {
-            errorMsg1.innerHTML = 'Please Enter ZIP Code.';
+            errorMsg1.style.display = "block";
         } else {
-            errorMsg1.innerHTML = '';
+            errorMsg1.style.display = "none";
             return weatherData;
         }
     } catch(error) {
@@ -143,18 +143,18 @@ const updateUI = async () => {
 
     try {
         const data = await response.json();
-        city.innerHTML = `<p>${data.city}</p>`;
-        date.innerHTML = `<p>${data.date}</p>`;
+        city.innerHTML = `${data.city}`;
+        date.innerHTML = `${data.date}`;
         icon.innerHTML = `<img src="${iconPath}${data.icon}@4x.png" alt=""/>`;
-        temperature.innerHTML = `<p>${data.temp} °C</p>`;
-        condition.innerHTML = `<p>${data.condition}</p>`;
-        youFeel.innerHTML = `<p>I'm feeling ${data.feeling}!</p>`;
+        temperature.innerHTML = `${data.temp} <span id="cel">°C</span>`;
+        condition.innerHTML = `${data.condition}`;
+        youFeel.innerHTML = `And You Feeling.. ${data.feeling}!`;
 
-        feelLike.innerHTML = `<p>Feels Like   ${data.feelLike} °C</p>`;
-        windSpeed.innerHTML = `<p>Wind Speed   ${data.windSpeed} m/s</p>`;
-        humidity.innerHTML = `<p>Humidity   ${data.humidity} %</p>`;
-        pressure.innerHTML = `<p>Pressure   ${data.pressure} hPa</p>`;
-        visibility.innerHTML = `<p>Visibility   ${data.visibility} km</p>`
+        feelLike.innerHTML = `Feels Like   ${data.feelLike} °C`;
+        windSpeed.innerHTML = `Wind Speed   ${data.windSpeed} m/s`;
+        humidity.innerHTML = `Humidity   ${data.humidity} %`;
+        pressure.innerHTML = `Pressure   ${data.pressure} hPa`;
+        visibility.innerHTML = `Visibility   ${data.visibility} km`
     } catch(error) {
         console.log("error", error);
     }

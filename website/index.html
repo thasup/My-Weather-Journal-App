@@ -11,26 +11,26 @@
     <title>Weather Journal App</title>
 </head>
 <body>
-    <head class="menu">
+    <div class="menu">
         <div class="headline">WEATHER FORECAST</div>
         <form class="form" action="">
             <div class="zipcode-panel">
                 <label for="zip">Enter Your Zip Code</label> 
                 <input type="text" name="zip" required id="zip" placeholder="Enter your zip code here">
-                <p id="error-msg1"></p>
+                <p id="error-msg1">ZIP Code is Invalid.</p>
             </div>
             <div class="country-panel">
                 <label for="country">Enter Your Country Code</label> 
                 <input type="text" name="country" required id="country" placeholder="Enter your country code here">
-                <p id="error-msg2"></p>
+                <p id="error-msg2">Country Code is Invalid.</p>
             </div>
             <div class="text-panel">
                 <label for="feelings">How are you feeling today?</label>        
-                <input type="text" name="feeling" id="feeling" placeholder="How are you feeling today?" rows="3" cols="50">
+                <textarea type="text" name="feeling" id="feeling" placeholder="Enter you feeling here"></textarea>
             </div>
-            <button id="generate" type="submit"> Submit </button>
+            <button id="generate" type="submit"> SUBMIT </button>
         </form>
-    </head>
+    </div>
     <main class="forecast">
         <div class="main-forecast">
             <div id="main-place"></div>
@@ -38,7 +38,6 @@
             <div id="main-icon"></div>
             <div id="main-temp"></div>
             <div id="main-condition"></div>
-            <div id="you-feel"></div>
         </div>
 
         <div class="main-detail">
@@ -47,13 +46,7 @@
             <div id="humidity"></div>
             <div id="pressure"></div>
             <div id="visibility"></div>
-        </div>
-
-        <div class="sub-forecast">
-            <div id="sub-date"></div>
-            <div id="sub-icon"></div>
-            <div id="sub-temp"></div>
-            <div id="sub-condition"></div>
+            <div id="you-feel"></div>
         </div>
     </main>
     <script src="./js/app.js"></script>

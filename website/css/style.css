@@ -3,48 +3,54 @@
     --main-theme: #141414;
     --pure-white: #fff;
     --black-text: #1d1d1f;
-    --light-grey: #fbfbfb;
+    --light-grey: rgba(201, 201, 201, 0.589);
     --blue-link: #06c;
 
     --shadow: 2px 2px 3px rgb(56, 56, 56);
 }
 
 html {
-    background-color: var(--pure-white);
+    background-image: url(../img/kumiko-shimizu-lNxMcE8mvIM-unsplash.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-attachment: fixed;
 }
 
 body {
-    font-family: 'PT Sans', sans-serif;
     margin: auto;
-    width: 600px;
-    background-color: var(--light-grey);
-    color: var(--black-text);
+    max-width: 600px;
+}
+
+/* -- Mobile size -- */
+/* -- Menu Style -- */
+.menu {
     display: flex;
     flex-direction: column;
+    font-family: 'Varela Round', sans-serif;
+    background-color: var(--light-grey);
+    color: var(--black-text);
     justify-content: center;
     align-items: center;
 }
 
-head {
-    display: flex;
-    flex-direction: column;
-    font-family: 'Varela Round', sans-serif;
-}
-
 .headline {
-    font-size: 3rem;
+    font-size: 1.75rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 0rem 0rem;
 }
 
 form {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: repeat(3, auto);
+    grid-template-rows: repeat(4, 1fr);
     justify-content: center;
     align-items: center;
 }
 
 .zipcode-panel {
-    grid-area: 1/1/2/2;
+    grid-area: 1/1/2/1;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -52,7 +58,7 @@ form {
 }
 
 .country-panel {
-    grid-area: 1/2/2/3;
+    grid-area: 2/1/3/1;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -60,27 +66,208 @@ form {
 }
 
 .text-panel {
-    grid-area: 2/1/3/3;
+    grid-area: 3/1/4/1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 10px 0px;
+    margin: 10px 20px;
 }
 
 #generate {
-    grid-area: 3/1/4/3;
+    grid-area: 4/1/5/1;
     display: inline-block;
     padding: 10px 30px;
-    margin: 10px 80px;
+    margin: 10px 80px 40px 80px;
+    background-color: var(--blue-link);
+    color: var(--pure-white);
+    border-radius: 6px;
+}
+
+#generate:hover {
+    box-shadow: var(--shadow);
+    cursor: pointer;
 }
 
 form div label {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
+    margin-bottom: 10px;
 }
 
 form div input {
-    width: 200px;
-    height: 20px;
+    width: 260px;
+    height: 30px;
     box-shadow: var(--shadow);
+}
+
+form div p {
+    display: none;
+    color: crimson;
+}
+
+form div textarea {
+    min-width: 260px;
+    height: 60px;
+    box-shadow: var(--shadow);
+}
+
+/* -- Content Style -- */
+.forecast {
+    margin-top: 20px;
+    font-family: 'PT Sans', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-forecast {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(3, auto) ;
+    grid-template-areas: 
+    "city city"
+    "date date"
+    "wicon temp"
+    "cond cond";
+    justify-content: center;
+    align-items: center;
+}
+
+#main-place {
+    grid-area: city;
+    font-size: 3rem;
+    text-align: center;
+}
+
+#main-date {
+    grid-area: date;
+    text-align: center;
+}
+
+#main-icon {
+    grid-area: wicon;
+    text-align: center;
     
+}
+
+#main-icon img {
+    width: 150px;
+    height: 150px;
+}
+
+#main-temp {
+    grid-area: temp;
+    font-size: 3.5rem;
+    text-align: center;
+}
+
+#cel {
+    font-size: 2.5rem;
+}
+
+#main-condition {
+    grid-area: cond;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.main-detail {
+    display: grid;
+    grid-template-areas: 
+    "like wind"
+    "hum press"
+    "vis feel";
+    justify-content: center;
+    align-items: center;
+    margin: 30px 0px;
+}
+
+#feel-like {
+    grid-area: like;
+}
+
+#wind-speed {
+    grid-area: wind;
+}
+
+#humidity {
+    grid-area: hum;
+}
+
+#pressure {
+    grid-area: press;
+}
+
+#visibility {
+    grid-area: vis;
+}
+
+#you-feel {
+    grid-area: feel;
+}
+
+.main-detail div {
+    margin: 0.5rem 1rem;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* -- Tablet,Desktop size -- */
+@media (min-width: 750px) {
+
+    .headline {
+        font-size: 3rem;
+    }
+
+    form {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat(3, auto);
+    }
+    
+    .zipcode-panel {
+        grid-area: 1/1/2/2;
+    }
+    
+    .country-panel {
+        grid-area: 1/2/2/3;
+    }
+    
+    .text-panel {
+        grid-area: 2/1/3/3;
+    }
+    
+    #generate {
+        grid-area: 3/1/4/3;
+    }
+    
+    form div input {
+        width: 200px;
+        height: 20px;
+    }
+    
+    form div textarea {
+        width: 440px;
+        height: 80px;
+    }
+
+    /* -- Content Style -- */
+    #main-icon img {
+        width: 200px;
+        height: 200px;
+    }
+    
+    #main-temp {
+        font-size: 4.5rem;
+    }
+    
+    #cel {
+        font-size: 3.5rem;
+    }
+
+    .main-detail {
+        grid-template-areas: 
+        "like wind hum"
+        "press vis feel";
+        margin: 30px 0px 0px 0px;
+    }
 }
