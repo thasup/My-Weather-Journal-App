@@ -26,7 +26,7 @@ this project is part of Udacity front end web developer nanodegree program.
 1. clone this git on computer
 2. install node.js
 3. run command `npm install` on terminal
-4. run command `node server` on terminal
+4. run command `nodemon server` on terminal
 5. go to `http://localhost:8000/`
 6. happy!
 
