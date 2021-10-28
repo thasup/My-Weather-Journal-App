@@ -13,7 +13,7 @@ this project is part of Udacity front end web developer nanodegree program.
 
 # Table of contents
 
-- [My-Landing-Page](#my-landing-page)
+- [My-Weather-Journal-App](#my-weather-journal-app)
 - [Demo-Preview](#demo-preview)
 - [Table of contents](#table-of-contents)
 - [Install](#install)
@@ -24,7 +24,7 @@ this project is part of Udacity front end web developer nanodegree program.
 [(Back to top)](#table-of-contents)
 
 1. clone this git on computer
-2. install `node.js`
+2. install node.js
 3. run command `node server` on terminal
 4. go to `http://localhost:8000/`
 5. happy!
