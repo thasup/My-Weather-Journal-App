@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 /* Initialize the main project folder*/
-app.use(express.static('docs'));
+app.use(express.static('website'));
 
 // Defines the port number 
 const port = 8000;
