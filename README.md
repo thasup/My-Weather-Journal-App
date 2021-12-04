@@ -1,5 +1,5 @@
 <!-- Add banner here -->
-
+![Project Preview](docs/preview_project3.gif)
 
 # My-Weather-Journal-App
 
