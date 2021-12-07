@@ -34,7 +34,7 @@ let projectData = {};
 // GET Route
 app.get('/retrieve', (request, response) => {
     response.send(projectData);
-    console.log(projectData);
+    // console.log(projectData);
 });
 
 // POST Route
@@ -54,5 +54,5 @@ app.post('/add', (request, response) => {
         visibility: request.body.visibility
     };
     projectData = newEntry;
-    console.log(projectData);
+    // console.log(projectData);
 });
