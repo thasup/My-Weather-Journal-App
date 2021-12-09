@@ -4,12 +4,14 @@
 # My-Weather-Journal-App
 
 <!-- Describe your project in brief -->
-this project is part of Udacity front end web developer nanodegree program.
+This project is to create an asynchronous web app that uses **Web API** and user data to dynamically update the UI in a Weather Journal application by using **Express** as a server framework on **Node.js**. 
+
+*this project is part of Udacity front end web developer nanodegree program.*
 
 # Demo-Preview
 
 <!-- Add a demo for your project -->
--nope-
+[Project Demo Link](https://thasup-weather-journal-app.herokuapp.com/)
 
 # Table of contents
 
@@ -19,6 +21,7 @@ this project is part of Udacity front end web developer nanodegree program.
 - [Install](#install)
 - [Languages](#languages)
 - [Features](#features)
+- [Technology](#technology)
 
 # Install
 [(Back to top)](#table-of-contents)
@@ -42,3 +45,15 @@ this project is part of Udacity front end web developer nanodegree program.
 
 - Integrating OpenWeatherMap API
 - Dynamically Update UI
+
+# Technology
+[(Back to top)](#table-of-contents)
+
+- html
+- css/scss
+- javascript
+- DOM
+- node.js
+- express.js
+- API
+- heroku
