@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(express.static('website'));
 
 // Defines the port number 
-const port = 8000;
+const port = process.env.PORT || 8000;
 
 // Spin up the server
 const server = app.listen(port, listening);
