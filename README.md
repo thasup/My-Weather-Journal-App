@@ -11,7 +11,7 @@ This project is to create an asynchronous web app that uses **Web API** and user
 # Demo-Preview
 
 <!-- Add a demo for your project -->
-[Project Demo Link](https://thasup-weather-journal-app.herokuapp.com/)
+[Project Demo Link](https://thasup-weather-journal.onrender.com/)
 
 # Table of contents
 
@@ -27,7 +27,7 @@ This project is to create an asynchronous web app that uses **Web API** and user
 [(Back to top)](#table-of-contents)
 
 1. clone this git on computer
-2. install node.js
+2. install node.js, nodemon
 3. run command `npm install` on terminal
 4. run command `nodemon server` on terminal
 5. go to `http://localhost:8000/`
@@ -56,4 +56,4 @@ This project is to create an asynchronous web app that uses **Web API** and user
 - node.js
 - express.js
 - API
-- heroku
+- render
