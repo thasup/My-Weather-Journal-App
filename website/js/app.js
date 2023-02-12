@@ -3,8 +3,8 @@ const zipcode = document.querySelector('#zip');
 const country = document.querySelector('#country');
 const feeling = document.querySelector('#feeling');
 const summitBtn = document.querySelector('#generate');
-const errorMsg1 = document.querySelector('#error-msg1');
-const errorMsg2 = document.querySelector('#error-msg2');
+const errorZipcode = document.querySelector('#error-zipcode');
+const errorCountry = document.querySelector('#error-country');
 
 const city = document.querySelector('#main-place');
 const date = document.querySelector('#main-date');
@@ -23,28 +23,15 @@ const iconPath = 'https://openweathermap.org/img/wn/';
 
 // Combine URL components
 const getURL = () => {
-  const baseURL = 'https://api.openweathermap.org/data/2.5/weather?zip=';
-  const apiKey = '&appid=0157a18e1dec25c35696d5b92e0836d9';
-  const units = '&units=metric';
+  const baseURL = 'https://api.openweathermap.org/data/2.5/weather';
+  const apiKey = 'appid=0157a18e1dec25c35696d5b92e0836d9';
+  const units = 'units=metric';
 
   if (!country.value) {
-    errorMsg2.style.display = 'none';
-    const urlAPI = baseURL + zipcode.value + apiKey + units;
-
-    return urlAPI;
+    return `${baseURL}?zip=${zipcode.value},us&${apiKey}&${units}`;
   }
 
-  if (country.value.length === 2) {
-    errorMsg2.style.display = 'none';
-    const urlAPI = `${baseURL + zipcode.value},${apiKey}${units}${country.value}`;
-
-    return urlAPI;
-  }
-
-  errorMsg2.style.display = 'block';
-  const urlAPI = `${baseURL + zipcode.value},${apiKey}${units}${country.value}`;
-
-  return urlAPI;
+  return `${baseURL}?zip=${zipcode.value},${country.value}&${apiKey}&${units}`;
 };
 
 // Retrieve weather data from web API
@@ -52,19 +39,13 @@ const getWeatherData = async (urlAPI) => {
   try {
     const response = await fetch(urlAPI);
     const weatherData = await response.json();
-    if (weatherData.cod === '404' || weatherData.cod === '400') {
-      errorMsg1.style.display = 'block';
+
+    if (weatherData.cod === '400' && !zipcode.value) {
+      errorZipcode.style.display = 'block';
+    } else if (weatherData?.cod === '404' && weatherData?.message === 'city not found') {
+      errorCountry.style.display = 'block';
     }
 
-    if (weatherData.cod === '404' && country.value !== '') {
-      errorMsg1.style.display = 'none';
-    }
-
-    if (!zipcode.value) {
-      errorMsg1.style.display = 'block';
-    }
-
-    errorMsg1.style.display = 'none';
     return weatherData;
   } catch {
     throw new Error('Can not get weather data');
@@ -135,29 +116,36 @@ const currentDate = () => {
 const runProcess = async (event) => {
   event.preventDefault();
 
+  errorZipcode.style.display = 'none';
+  errorCountry.style.display = 'none';
+
   // Create an URL
   const url = getURL();
 
-  // API request for wreather data from openweathermap.org
-  const data = await getWeatherData(url);
+  try {
+    // API request for wreather data from openweathermap.org
+    const data = await getWeatherData(url);
 
-  // POST data to empty JS object
-  await postData('/add', {
-    date: currentDate(),
-    city: data.name,
-    icon: data.weather[0].icon,
-    temp: Math.round(data.main.temp),
-    feeling: feeling.value,
-    condition: data.weather[0].main,
-    feelLike: Math.round(data.main.feels_like),
-    windSpeed: data.wind.speed,
-    humidity: data.main.humidity,
-    pressure: data.main.pressure,
-    visibility: data.visibility / 1000,
-  });
+    // POST data to empty JS object
+    await postData('/add', {
+      date: currentDate(),
+      city: data?.name,
+      icon: data?.weather[0].icon,
+      temp: Math.round(data?.main.temp),
+      feeling: feeling.value,
+      condition: data?.weather[0].main,
+      feelLike: Math.round(data?.main.feels_like),
+      windSpeed: data?.wind.speed,
+      humidity: data?.main.humidity,
+      pressure: data?.main.pressure,
+      visibility: data?.visibility ? data.visibility / 1000 : null,
+    });
 
-  // Update website UI
-  await updateUI();
+    // Update website UI
+    await updateUI();
+  } catch (error) {
+    throw new Error(error.message);
+  }
 };
 
 // Add Event Listener to Summit button
