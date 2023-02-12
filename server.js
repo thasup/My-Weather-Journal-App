@@ -31,7 +31,6 @@ let projectData = {};
 // GET Route
 app.get('/retrieve', (request, response) => {
   response.send(projectData);
-  // console.log(projectData);
 });
 
 // POST Route
@@ -66,5 +65,4 @@ app.post('/add', (request, response) => {
   };
 
   projectData = newEntry;
-  // console.log(projectData);
 });

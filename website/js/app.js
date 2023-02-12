@@ -21,141 +21,144 @@ const visibility = document.querySelector('#visibility');
 
 const iconPath = 'https://openweathermap.org/img/wn/';
 
-// Add Event Listener to Summit button
-summitBtn.addEventListener('click', runProcess);
-
-// Run runProcess Function
-function runProcess (evt) {
-    evt.preventDefault();
-
-    getURL();
-
-    // API request for wreather data from openweathermap.org
-    getWeatherData(getURL())
-
-    // POST data to empty JS object
-    .then((data) => {
-        postData('/add', {
-            date: today,
-            city: data.name,
-            icon: data.weather[0].icon,
-            temp: Math.round(data.main.temp),
-            feeling: feeling.value,
-            condition: data.weather[0].main,
-            feelLike: Math.round(data.main.feels_like),
-            windSpeed: data.wind.speed,
-            humidity: data.main.humidity,
-            pressure: data.main.pressure,
-            visibility: data.visibility/1000
-        });
-        console.log(data);
-    })
-
-    // Update website UI
-    .then(() => {
-        updateUI();
-    })
-};
-
 // Combine URL components
 const getURL = () => {
-    const baseURL = 'https://api.openweathermap.org/data/2.5/weather?zip=';
-    const apiKey = '&appid=0157a18e1dec25c35696d5b92e0836d9';
-    const units = '&units=metric';
+  const baseURL = 'https://api.openweathermap.org/data/2.5/weather?zip=';
+  const apiKey = '&appid=0157a18e1dec25c35696d5b92e0836d9';
+  const units = '&units=metric';
 
-    if (country.value === '') {
-        errorMsg2.style.display = "none";
-        let urlAPI = baseURL + zipcode.value + apiKey + units;
-        return urlAPI;
-    } else if (country.value.length !== 2) {
-        errorMsg2.style.display = "block";
-        let urlAPI = baseURL + zipcode.value + `,` + country.value + apiKey + units;
-        return urlAPI;
-    } else {
-        errorMsg2.style.display = "none";
-        let urlAPI = baseURL + zipcode.value + `,` + country.value + apiKey + units;
-        return urlAPI;
-    }
+  if (!country.value) {
+    errorMsg2.style.display = 'none';
+    const urlAPI = baseURL + zipcode.value + apiKey + units;
+
+    return urlAPI;
+  }
+
+  if (country.value.length === 2) {
+    errorMsg2.style.display = 'none';
+    const urlAPI = `${baseURL + zipcode.value},${apiKey}${units}${country.value}`;
+
+    return urlAPI;
+  }
+
+  errorMsg2.style.display = 'block';
+  const urlAPI = `${baseURL + zipcode.value},${apiKey}${units}${country.value}`;
+
+  return urlAPI;
 };
-
-// Create a new date instance dynamically with JS
-let localDate = new Date();
-const year = [
-    'January', 
-    'February', 
-    'March', 
-    'April', 
-    'May', 
-    'June', 
-    'July', 
-    'August', 
-    'September', 
-    'October', 
-    'November', 
-    'December'];
-let today = `${localDate.getDate()} ${year[localDate.getMonth()]} ${localDate.getFullYear()}`;
 
 // Retrieve weather data from web API
 const getWeatherData = async (urlAPI) => {
-
-    const response = await fetch(urlAPI)
-
-    try {
-        const weatherData = await response.json();
-        if (weatherData.cod === '404' || weatherData.cod === '400') {
-            errorMsg1.style.display = "block";
-        } else if (weatherData.cod === '404' && country.value !== '') {
-            errorMsg1.style.display = "none";
-        } else if (zipcode.value === '') {
-            errorMsg1.style.display = "block";
-        } else {
-            errorMsg1.style.display = "none";
-            return weatherData;
-        }
-    } catch(error) {
-        console.log('error', error);
+  try {
+    const response = await fetch(urlAPI);
+    const weatherData = await response.json();
+    if (weatherData.cod === '404' || weatherData.cod === '400') {
+      errorMsg1.style.display = 'block';
     }
-};
 
-// Function for POST data
-const postData = async ( url = '', data = {}) => {
-    console.log(data);
-
-    const response = await fetch(url, {
-        method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        credentials: 'same-origin', // include, *same-origin, omit
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data), // body data type must match "Content-Type" header
-        });
-    
-    try {
-        const newData = await response;
-        //console.log(newData);
-        return newData
-    } catch(error) {
-        console.log("error", error);
+    if (weatherData.cod === '404' && country.value !== '') {
+      errorMsg1.style.display = 'none';
     }
+
+    if (!zipcode.value) {
+      errorMsg1.style.display = 'block';
+    }
+
+    errorMsg1.style.display = 'none';
+    return weatherData;
+  } catch {
+    throw new Error('Can not get weather data');
+  }
 };
 
 // Update website UI
 const updateUI = async () => {
+  try {
     const response = await fetch('/retrieve');
+    const data = await response.json();
+    city.innerHTML = data.city;
+    date.innerHTML = data.date;
+    icon.innerHTML = `<img src="${iconPath}${data.icon}@4x.png" alt=""/>`;
+    temperature.innerHTML = `${data.temp} <span id="cel">°C</span>`;
+    condition.innerHTML = data.condition;
+    youFeel.innerHTML = `And You Feeling.. ${data.feeling}!`;
 
-    try {
-        const data = await response.json();
-        city.innerHTML = `${data.city}`;
-        date.innerHTML = `${data.date}`;
-        icon.innerHTML = `<img src="${iconPath}${data.icon}@4x.png" alt=""/>`;
-        temperature.innerHTML = `${data.temp} <span id="cel">°C</span>`;
-        condition.innerHTML = `${data.condition}`;
-        youFeel.innerHTML = `And You Feeling.. ${data.feeling}!`;
-
-        feelLike.innerHTML = `Feels Like   ${data.feelLike} °C`;
-        windSpeed.innerHTML = `Wind Speed   ${data.windSpeed} m/s`;
-        humidity.innerHTML = `Humidity   ${data.humidity} %`;
-        pressure.innerHTML = `Pressure   ${data.pressure} hPa`;
-        visibility.innerHTML = `Visibility   ${data.visibility} km`
-    } catch(error) {
-        console.log("error", error);
-    }
+    feelLike.innerHTML = `Feels Like   ${data.feelLike} °C`;
+    windSpeed.innerHTML = `Wind Speed   ${data.windSpeed} m/s`;
+    humidity.innerHTML = `Humidity   ${data.humidity} %`;
+    pressure.innerHTML = `Pressure   ${data.pressure} hPa`;
+    visibility.innerHTML = `Visibility   ${data.visibility} km`;
+  } catch {
+    throw new Error('Can not get project data');
+  }
 };
+
+// Function for POST data
+const postData = async (url = '', data = {}) => {
+  try {
+    const newData = await fetch(url, {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      credentials: 'same-origin', // include, *same-origin, omit
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data), // body data type must match "Content-Type" header
+    });
+
+    return newData;
+  } catch {
+    throw new Error('Can not save a weather data into the server');
+  }
+};
+
+// Create a new date instance dynamically with JS
+const currentDate = () => {
+  const localDate = new Date();
+  const year = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'];
+
+  const today = `${localDate.getDate()} ${year[localDate.getMonth()]} ${localDate.getFullYear()}`;
+
+  return today;
+};
+
+// Run runProcess Function
+const runProcess = async (event) => {
+  event.preventDefault();
+
+  // Create an URL
+  const url = getURL();
+
+  // API request for wreather data from openweathermap.org
+  const data = await getWeatherData(url);
+
+  // POST data to empty JS object
+  await postData('/add', {
+    date: currentDate(),
+    city: data.name,
+    icon: data.weather[0].icon,
+    temp: Math.round(data.main.temp),
+    feeling: feeling.value,
+    condition: data.weather[0].main,
+    feelLike: Math.round(data.main.feels_like),
+    windSpeed: data.wind.speed,
+    humidity: data.main.humidity,
+    pressure: data.main.pressure,
+    visibility: data.visibility / 1000,
+  });
+
+  // Update website UI
+  await updateUI();
+};
+
+// Add Event Listener to Summit button
+summitBtn.addEventListener('click', runProcess);
